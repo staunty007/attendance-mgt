@@ -1,17 +1,24 @@
 <template>
   <div>
       <Navbar />
-    <nuxt />
+        <div class="container-fluid">
+            <div class="row">
+                <Sidebar />
+                    <nuxt />
+            </div>
+        </div>
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar';
+import Sidebar from '@/components/Sidebar';
   export default {
     middleware: 'authenticated',
-    components: { Navbar },
+    components: { Navbar , Sidebar },
     mounted() {
         this.$store.dispatch('getPosts');
+        this.$store.dispatch('getStudents');
     }
   }
 
@@ -20,6 +27,10 @@ import Navbar from '@/components/Navbar';
   * {
     font-family: 'Nunito', sans-serif;
     font-size: 19px;
+  }
+
+  .bg-blue {
+      background-color: #16446d!important;
   }
 
   .bd-placeholder-img {

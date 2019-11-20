@@ -4,6 +4,7 @@
     <div>
       <div class="col-3 offset-md-4 mt-5">
         <h3 class="text-uppercase font-weight-bold text-dark text-center mb-5">Register</h3>
+        <p class="text-danger text-center" v-if="error">{{ error.message }}</p>
         <form>
           <div class="form-group">
             <label for="exampleInputEmail1">Full Name</label>
@@ -36,7 +37,7 @@
             <small class="form-text text-muted text-danger"></small>
           </div>
           <button type="button" @click="emailLogin" class="btn btn-primary col-md-6 offset-md-3">
-            Register <i class="fa fa-spinner fa-spin"></i>
+            Register  <i class="" :class="{ 'fa fa-spinner fa-spin': loading }"></i>
             </button>
         </form>
       </div>
@@ -71,7 +72,7 @@
         this.error = []
         try {
           const response = await auth.createUserWithEmailAndPassword(this.form.email, this.form.password);
-          await StoreDB.collection('users').doc(response.user.uid).set({ name: this.form.name });
+          await StoreDB.collection('users').doc(response.user.uid).set({ name: this.form.name, role: 'user' });
           this.loading = false
           this.$store.dispatch('signInWithEmail', response);
           console.log('Login Successfull');

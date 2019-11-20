@@ -6,6 +6,7 @@ export const state = () => ({
   user: null,
   profile: null,
   posts: '',
+  students:'',
 });
 
 export const mutations = {
@@ -17,11 +18,14 @@ export const mutations = {
   },
   setPost (state, payload) {
     state.posts = payload
+  },
+  setStudents (state, payload) {
+    state.students = payload
   }
 };
 
 export const actions = {
-  autoSignIn ({commit}, user) {
+  autoSignIn ({commit, dispatch}, user) {
     StoreDB.collection('users').doc(user.uid).get().then(doc => {
       commit('setProfile', doc.data());
     })
@@ -34,7 +38,7 @@ export const actions = {
     $nuxt.$router.push('/app');
   },
 
-  signInWithEmail({commit, dispatch}, payload) {
+  signInWithEmail({dispatch}, payload) {
     dispatch('autoSignIn', payload.user)
      console.log(payload.user);
      $nuxt.$router.push('/app');
@@ -50,6 +54,7 @@ export const actions = {
   signOut ({commit}) {
     auth.signOut().then(() => {
       commit('setUser', null)
+      commit('setProfile', null)
       $nuxt.$router.push('/login');
     }).catch(err => console.log(error))
   },
@@ -64,14 +69,30 @@ export const actions = {
       })
       commit('setPost', allPosts);
     });
+  },
+  async getStudents ({commit})  {
+    await StoreDB.collection('students').get().then(res => {
+      const allStudents = [];
+      res.forEach(doc => {
+        let student = doc.data()
+        student.id = doc.id
+        allStudents.push(student);
+      })
+      commit('setStudents', allStudents);
+    });
   }
 };
 
 export const getters = {
   activeUser: (state) => {
-    return state.user
+    const nUser = state.user
+    nUser != null ?  nUser.profile = state.profile : state.user
+    return nUser
   },
   allPosts: (state) => {
     return state.posts
+  },
+  allStudents: (state) => {
+    return state.students
   }
 };

@@ -9,10 +9,10 @@
           </nuxt-link>
         </li>
         <li class="nav-item  text-uppercase">
-          <a class="nav-link" href="#">
+          <nuxt-link class="nav-link" to="/app/students">
             <i class="fa fa-users text-success"></i>
             STUDENTS
-          </a>
+          </nuxt-link>
         </li>
         <li class="nav-item  text-uppercase">
           <nuxt-link class="nav-link" to="/posts">

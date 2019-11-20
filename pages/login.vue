@@ -27,7 +27,8 @@
             <small class="form-text text-muted text-danger"></small>
           </div>
           <button type="button" @click="emailRegister"
-            class="btn btn-primary col-md-6 offset-md-3">{{ loading ? 'Logging In...' : 'Login' }}</button>
+            class="btn btn-primary col-md-6 offset-md-3">
+            Login <i class="" :class="{ 'fa fa-spinner fa-spin': loading }"></i></button>
         </form>
       </div>
     </div>

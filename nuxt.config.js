@@ -48,6 +48,7 @@ export default {
   */
   plugins: [
     '~/plugins/firebase.js',
+    '~/plugins/vuelidate.js',
   ],
   /*
   ** Nuxt.js dev-modules
