@@ -35,7 +35,9 @@
             </div>
             <small class="form-text text-muted text-danger"></small>
           </div>
-          <button type="button" @click="emailLogin" class="btn btn-secondary col-md-6 offset-md-3">{{ loading ? 'Registering...' : 'Register' }}</button>
+          <button type="button" @click="emailLogin" class="btn btn-primary col-md-6 offset-md-3">
+            Register <i class="fa fa-spinner fa-spin"></i>
+            </button>
         </form>
       </div>
     </div>
