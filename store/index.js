@@ -80,7 +80,7 @@ export const actions = {
       })
       commit('setStudents', allStudents);
     });
-  }
+  },
 };
 
 export const getters = {

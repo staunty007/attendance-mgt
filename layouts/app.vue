@@ -1,24 +1,27 @@
 <template>
   <div>
-      <Navbar />
-        <div class="container-fluid">
-            <div class="row">
-                <Sidebar />
-                    <nuxt />
-            </div>
-        </div>
+    <Navbar />
+    <div class="container-fluid">
+      <div class="row">
+        <Sidebar />
+        <nuxt />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
+  import Navbar from '@/components/Navbar';
+  import Sidebar from '@/components/Sidebar';
   export default {
     middleware: 'authenticated',
-    components: { Navbar , Sidebar },
+    components: {
+      Navbar,
+      Sidebar
+    },
     mounted() {
-        this.$store.dispatch('getPosts');
-        this.$store.dispatch('getStudents');
+      this.$store.dispatch('getPosts');
+      this.$store.dispatch('getStudents');
     }
   }
 
@@ -30,7 +33,7 @@ import Sidebar from '@/components/Sidebar';
   }
 
   .bg-blue {
-      background-color: #16446d!important;
+    background-color: #16446d !important;
   }
 
   .bd-placeholder-img {

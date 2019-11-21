@@ -99,6 +99,7 @@
           this.loading = false
           this.submitted = true
           this.resetForm()
+          this.$store.dispatch('getStudents');
         } catch (error) {
           this.loading = false
           error.message
