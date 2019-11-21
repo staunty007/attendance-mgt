@@ -25,6 +25,9 @@
           </div>
         </div>
       </div>
+      <div class="col-md-2">
+          <nuxt-link type="button" to="/app/students" class="btn btn-primary btn-block"><i class="fa fa-caret-left mr-2"></i>BACK</nuxt-link>
+      </div>
     </div>
   </main>
 </template>
