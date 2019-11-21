@@ -5,14 +5,14 @@
       <button class="btn btn-success push-right col-md-1 col-sm-3" v-if="type!='add'" @click="type='add'"> <i
           class="fa fa-plus"></i> Add New</button>
       <button class="btn btn-primary push-right col-md-2 col-sm-3" v-if="type!='view'" @click="type='view'">
-         <i class="fa fa-users"></i> All Students</button>
+        <i class="fa fa-users"></i> All Students</button>
     </div>
     <div class="row mt-2">
       <div class="col-md-4"></div>
       <AddStudent :display-add="displayAdd" />
     </div>
     <div class="row mt-2" v-if="displayAll">
-      <table class="table table-bordered table-striped col-md-10 offset-md-1">
+      <table class="example table table-bordered table-striped col-md-10 offset-md-1">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -31,9 +31,9 @@
             <td>{{ student.phone }}</td>
             <td>{{ student.gender.toUpperCase() }}</td>
             <td>
-                <button class="btn btn-info"><i class="fa fa-eye"></i></button>
-                <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
-                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+              <nuxt-link type="button" :to="'/app/students/' + student.id" class="btn btn-info"><i class="fa fa-eye"></i></nuxt-link>
+              <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
+              <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -74,12 +74,12 @@
       }
     },
     mounted() {
-        this.type = 'view';
+      this.type = 'view';
     },
     computed: {
-        students() {
-            return this.$store.getters.allStudents
-        }
+      students() {
+        return this.$store.getters.allStudents
+      }
     }
   }
 
