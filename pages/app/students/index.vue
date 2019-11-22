@@ -31,19 +31,44 @@
             <td>{{ student.phone }}</td>
             <td>{{ student.gender.toUpperCase() }}</td>
             <td>
-              <nuxt-link type="button" :to="'/app/students/' + student.id" class="btn btn-info"><i class="fa fa-eye"></i></nuxt-link>
+              <nuxt-link type="button" :to="'/app/students/' + student.id" class="btn btn-info"><i
+                  class="fa fa-eye"></i></nuxt-link>
               <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
-              <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+              <button class="btn btn-danger" @click="openDeleteModal(student)"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="modal fade bd-example-modal-sm delete-modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Confirm Delete <br>
+              <span class="text-primary">{{ isConfirmedName.name }}</span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row d-flex justify-content-between">
+                <button type="button" class="btn btn-warning" data-dismiss="modal" @click="isConfirmed = false">Cancel</button>
+                <button type="button" class="btn btn-danger" @click="isConfirmed = true">{{ loading ? 'Deleting' : 'Delete' }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 </template>
 
 <script>
   import AddStudent from '@/components/app/AddStudent';
+  import {
+    StoreDB
+  } from '@/services/fireinit.js'
   export default {
     layout: 'app',
     components: {
@@ -52,8 +77,33 @@
     data() {
       return {
         type: '',
+        loading:false,
         displayAdd: false,
         displayAll: false,
+        isConfirmed: false,
+        isConfirmedName: {},
+      }
+    },
+    methods: {
+      openDeleteModal(student) {
+        this.isConfirmedName = student
+        $('.delete-modal').modal('show');
+        if (this.isConfirmed == true) {
+            console.log("holla");
+            this.deleteStudent(student);
+        }
+      },
+      async deleteStudent(student) {
+          this.loading = true;
+       await StoreDB.collection("students").doc(student.id).delete().then(() => {
+           this.loading = false;
+            console.log("Document successfully deleted!");
+            $('.delete-modal').modal('hide');
+            this.$store.dispatch('getStudents');
+        }).catch((error) => {
+            this.loading = false;
+          console.error("Error removing document: ", error);
+        });
       }
     },
     watch: {
@@ -71,6 +121,13 @@
           default:
             break;
         }
+      },
+      isConfirmed(value) {
+          if (value == true) {
+            this.deleteStudent(this.isConfirmedName);
+          } else {
+            $('.delete-modal').modal('hide');
+          }
       }
     },
     mounted() {
